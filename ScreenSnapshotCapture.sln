@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenSnapshotCapture.Software", "ScreenSnapshotCapture.Software\ScreenSnapshotCapture.Software.csproj", "{238CCA56-CCE7-45F9-BE45-EA1B21B9ABB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenSnapshotCapture.Library", "ScreenSnapshotCapture.Library\ScreenSnapshotCapture.Library.csproj", "{746B143D-6D1A-4F56-B828-628DF15E7AC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{238CCA56-CCE7-45F9-BE45-EA1B21B9ABB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{238CCA56-CCE7-45F9-BE45-EA1B21B9ABB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{238CCA56-CCE7-45F9-BE45-EA1B21B9ABB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{238CCA56-CCE7-45F9-BE45-EA1B21B9ABB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{746B143D-6D1A-4F56-B828-628DF15E7AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{746B143D-6D1A-4F56-B828-628DF15E7AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{746B143D-6D1A-4F56-B828-628DF15E7AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{746B143D-6D1A-4F56-B828-628DF15E7AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
