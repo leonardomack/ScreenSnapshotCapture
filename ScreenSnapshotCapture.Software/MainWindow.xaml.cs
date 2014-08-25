@@ -26,16 +26,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ScreenSnapshotCapture.Library;
 
 namespace ScreenSnapshotCapture.Software
 {
@@ -44,7 +47,10 @@ namespace ScreenSnapshotCapture.Software
     /// </summary>
     public partial class MainWindow : Window
     {
-        private System.Windows.Forms.NotifyIcon notifyIcon;        
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private String currentApplicationPath;
+        private Recorder recorder;
+        private String selectedPath;
         
         public MainWindow()
         {
@@ -55,12 +61,17 @@ namespace ScreenSnapshotCapture.Software
         
         private void InitializeApplication()
         {
-            notifyIcon = new System.Windows.Forms.NotifyIcon();
-            notifyIcon.BalloonTipText = "";
-            notifyIcon.BalloonTipTitle = "";
-            notifyIcon.Text = "ScreenSnapshotCapture";
-            notifyIcon.Icon = new System.Drawing.Icon(@"D:\Software\LosseGitHub\ScreenSnapshotCapture\ScreenSnapshotCapture.Software\Resources\Images\Ico.ico");
-            notifyIcon.DoubleClick += new EventHandler(NotifyIcon_DoubleClick);
+            //Get application root path
+            String projectName = Assembly.GetEntryAssembly().GetName().Name;
+            this.currentApplicationPath = System.AppDomain.CurrentDomain.BaseDirectory.Substring(0, System.AppDomain.CurrentDomain.BaseDirectory.IndexOf(projectName) + projectName.Length) + "//";
+            
+            //Adjusting SystemTray
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon();
+            this.notifyIcon.BalloonTipText = "";
+            this.notifyIcon.BalloonTipTitle = "";
+            this.notifyIcon.Text = "ScreenSnapshotCapture";
+            this.notifyIcon.Icon = new System.Drawing.Icon(this.currentApplicationPath + @"\Resources\Images\Ico.ico");
+            this.notifyIcon.DoubleClick += new EventHandler(NotifyIcon_DoubleClick);
         }
         
         private void NotifyIcon_DoubleClick(object sender, EventArgs e)
@@ -80,22 +91,74 @@ namespace ScreenSnapshotCapture.Software
                 case WindowState.Minimized:
                     {
                         Hide();
-                        if (notifyIcon != null)
+                        if (this.notifyIcon != null)
                         {
-                            notifyIcon.Visible = true;
+                            this.notifyIcon.Visible = true;
                         }
                         break;
                     }
                 case WindowState.Normal:
                     {
-                        notifyIcon.Visible = false;
+                        this.notifyIcon.Visible = false;
                         break;
                     }
                 default:
                     {
                         break;
                     }
-            }            
+            }
+        }
+        
+        private void ButtonChoseFolder_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            
+            this.selectedPath = dialog.SelectedPath;
+        }
+        
+        private void ButtonStart_Click(object sender, RoutedEventArgs e)
+        {
+            //Checking if it's a valid time in milliseconds
+            if (IsValidTimeMilliseconds(TextBoxTimeMilliseconds.Text))
+            {
+                //New instance of a recorder
+                this.recorder = new Recorder(this.selectedPath + @"\", Convert.ToInt32(TextBoxTimeMilliseconds.Text));
+                
+                //Disable Enable button
+                ButtonStop.IsEnabled = true;
+                ButtonStart.IsEnabled = false;
+                
+                //Start recording
+                this.recorder.Start();
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Wrong input for time in milliseconds");
+            }
+        }
+        
+        private void ButtonStop_Click(object sender, RoutedEventArgs e)
+        {
+            //Disable Enable button
+            ButtonStop.IsEnabled = false;
+            ButtonStart.IsEnabled = true;
+            
+            //Top recorder
+            this.recorder.Stop();
+        }
+        
+        private static Boolean IsValidTimeMilliseconds(String timeMilliseconds)
+        {
+            try
+            {
+                Convert.ToInt32(timeMilliseconds);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
