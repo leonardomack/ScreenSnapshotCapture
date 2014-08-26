@@ -112,9 +112,11 @@ namespace ScreenSnapshotCapture.Software
         private void ButtonChoseFolder_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            dialog.ShowDialog();
             
             this.selectedPath = dialog.SelectedPath;
+            TextBoxScreenshotsFolder.Text = dialog.SelectedPath;
+            TextBoxScreenshotsFolder.ToolTip = dialog.SelectedPath;
         }
         
         private void ButtonStart_Click(object sender, RoutedEventArgs e)

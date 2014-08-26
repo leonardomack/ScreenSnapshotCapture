@@ -36,11 +36,11 @@ namespace ScreenSnapshotCapture.Library
 {
     public class Recorder
     {
-        private Boolean isRunning;
-        private readonly Thread recorderThread;
-        private Int32 filenameCount;
         private readonly String savePath;
         private readonly Int32 interval;
+        private readonly Thread recorderThread;
+        private Boolean isRunning;        
+        private Int32 filenameCount;
         
         public Recorder(String savePath, Int32 interval)
         {
